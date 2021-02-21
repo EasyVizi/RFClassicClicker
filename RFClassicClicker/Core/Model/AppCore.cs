@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -9,13 +10,24 @@ namespace RFClassicClicker.Core.Model
 {
     public class AppCore
     {
-        public IntPtr Hwnd { get; set; }
+        public Dictionary<string, IntPtr> HwndList { get; set; }
         internal VKCodes VkCodes { get; set; }
 
         public AppCore()
         {
             VkCodes = new VKCodes();
-            Hwnd = HandleController.findWindowByCaption("RF Classic");
+            HwndList = new Dictionary<string, IntPtr>();
+            IntPtr hWnd = IntPtr.Zero;
+
+            do
+            {
+                hWnd = HandleController.findWindowByCaption("RF Classic");
+
+                string newWindowName = "RFO #" + (HwndList.Count + 1).ToString();
+                HandleController.setWindowTitle(hWnd, "RFO #" + HwndList.Count.ToString());
+
+                HwndList.Add(newWindowName, hWnd);
+            } while (hWnd.ToInt32() != 0);
         }
     }
 }
