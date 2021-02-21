@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RFClassicClicker.Core.Model;
+using RFClassicClicker.View;
+using RFClassicClicker.Core.Controller;
 
 namespace RFClassicClicker
 {
@@ -23,6 +26,24 @@ namespace RFClassicClicker
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            SendCommandByTimer sndWindow = new SendCommandByTimer();
+            sndWindow.Show();
+        }
+
+        private void sendKeyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button) sender;
+
+            char[] key = btn.Tag.ToString().ToCharArray();
+
+            if (key.Length == 1)
+            {
+                TransportController.sendKeyPress(App.core.Hwnd, key.First());
+            }
         }
     }
 }
