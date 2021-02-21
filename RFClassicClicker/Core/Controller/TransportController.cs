@@ -1,13 +1,31 @@
 ﻿using System;
+using System.Threading;
 using RFClassicClicker.Core.Model;
 
 namespace RFClassicClicker.Core.Controller
 {
     class TransportController : WinApiImport
     {
-        public static void sendKeyPress(IntPtr hwnd, uint key)
+        public IntPtr CurrentHwnd { get; set; }
+        public uint CurrentKey { get; set; }
+
+        public TransportController(IntPtr hwnd, uint key)
         {
-            PostMessage(hwnd, VMCodes.WM_KEYDOWN, key, IntPtr.Zero);
+            CurrentKey = key;
+            CurrentHwnd = hwnd;
+        }
+
+        public void sendKeyPress()
+        {
+            while (true)
+            {
+                SetForegroundWindow(CurrentHwnd);
+                SetActiveWindow(CurrentHwnd);
+                Thread.Sleep(50);
+
+                PostMessage(CurrentHwnd, VMCodes.WM_KEYDOWN, CurrentKey, IntPtr.Zero);
+                Thread.Sleep(1000);
+            }
         }
     }
 }

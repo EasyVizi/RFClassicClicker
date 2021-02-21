@@ -16,5 +16,14 @@ namespace RFClassicClicker.Core.Model
 
         [DllImport("user32.dll", EntryPoint = "FindWindow")]
         protected static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
+
+        [DllImport("user32.dll")]
+        protected static extern bool SetWindowTextA(IntPtr hWnd, string lpString);
+
+        [DllImport("user32.dll")]
+        protected static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        protected static extern bool SetForegroundWindow(IntPtr hWnd);
     }
 }
